@@ -1,6 +1,10 @@
 /* eslint-disable react/no-unknown-property */
+import { Base, Geometry, Subtraction } from "@react-three/csg";
 import { Environment, OrbitControls } from "@react-three/drei";
 import { Perf } from "r3f-perf";
+import Terrain from "./Terrain";
+import bg from "./static/spruit_sunrise.hdr";
+import Water from "./Water";
 
 function Experience() {
   return (
@@ -9,24 +13,37 @@ function Experience() {
       <OrbitControls />
       <Environment
         background
-        preset="city"
-        backgroundIntensity={1}
-        environmentIntensity={0.6}
-        resolution={2048}
+        files={bg}
+        backgroundIntensity={0.3}
+        backgroundBlurriness={0.5}
       />
 
-      <mesh position={[0, -5, 5]} receiveShadow>
-        <boxGeometry args={[15, 15, 0]} />
-        <meshStandardMaterial color="#ffffff" />
+      <mesh castShadow receiveShadow>
+        <meshStandardMaterial color={"#ffffff"} roughness={0.3} metalness={0} />
+        <Geometry>
+          <Base>
+            <boxGeometry args={[11, 2, 11]} />
+          </Base>
+          <Subtraction>
+            <boxGeometry args={[10, 2.1, 10]} />
+          </Subtraction>
+        </Geometry>
+        <Water />
+        <Terrain />
       </mesh>
 
       <directionalLight
-        position={[0.25, 2, -2.25]}
+        position={[6.25, 3, 4]}
         intensity={2.6}
         color={"#ffffff"}
         castShadow
         shadow-mapSize={[1024, 1024]}
-        shadow-camera-far={15}
+        shadow-camera-far={30}
+        shadow-camera-left={-8}
+        shadow-camera-right={8}
+        shadow-camera-top={8}
+        shadow-camera-bottom={-8}
+        shadow-camera-near={0.1}
       />
       <ambientLight intensity={0.3} />
     </>
