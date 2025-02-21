@@ -28,10 +28,9 @@ function Experience() {
             <boxGeometry args={[10, 2.1, 10]} />
           </Subtraction>
         </Geometry>
-        <Water />
-        <Terrain />
       </mesh>
-
+      <Water />
+      <Terrain />
       <directionalLight
         position={[6.25, 3, 4]}
         intensity={2.6}
